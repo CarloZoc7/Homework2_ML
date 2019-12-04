@@ -39,8 +39,7 @@ class Caltech(VisionDataset):
         for key, label in enumerate(self.labels):
           if label not in self.dir_labels.keys():
             self.dir_labels[label] = key
-
-        print(len(self.dir_labels))
+            
         self.elements = []
 
         for sample in samples_file:
