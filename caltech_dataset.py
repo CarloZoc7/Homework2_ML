@@ -45,7 +45,7 @@ class Caltech(VisionDataset):
         for sample in samples_file:
           self.elements.append(pil_loader(root+"/"+sample))
        
-       final_label = []
+       final_labels = []
        images_tensor = []
 
         for i in range(len(elements))
