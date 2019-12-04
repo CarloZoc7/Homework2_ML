@@ -33,28 +33,32 @@ class Caltech(VisionDataset):
         f = open(self.split , "r")
         
         samples_file = [str(row).replace("\n", "") for row in f]
-        self.labels = [label.split("/")[0] for label in samples_file]
+        self.labels = [label.split("/")[0] for label in samples_file] # if label.split("/")[0] != 'BACKGROUND_Google' to remove label of background
         self.dir_labels = {}
 
         for key, label in enumerate(self.labels):
           if label not in self.dir_labels.keys():
-            self.dir_labels["label"] = key
+            self.dir_labels[label] = key
 
+        print(len(self.dir_labels))
         self.elements = []
 
         for sample in samples_file:
           self.elements.append(pil_loader(root+"/"+sample))
        
-        final_labels = []
-        images_tensor = []
+        self.final_labels = []
+        self.images_tensor = []
 
         for i in range(len(self.elements)):
           image, label = self.__getitem__(i)  
 
-          images_tensor.append(image)
-          final_labels.append(label)
+          self.images_tensor.append(image)
+          self.final_labels.append(label)
 
-        return images_tensor, final_labels
+        self.elements.clear()
+        self.labels.clear()
+        self.dir_labels.clear()
+        return None
 
     def __getitem__(self, index):
         '''
@@ -86,3 +90,6 @@ class Caltech(VisionDataset):
         '''
         length = len(self.final_label) # Provide a way to get the length (number of elements) of the dataset
         return length
+
+    def get_dataset_labels(self):
+      return self.images_tensor, self.final_labels
