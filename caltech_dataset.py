@@ -54,7 +54,7 @@ class Caltech(VisionDataset):
           images_tensor.append(image)
           final_labels.append(label)
 
-      return images_tensor, final_labels
+    return images_tensor, final_labels
 
     def __getitem__(self, index):
         '''
@@ -77,7 +77,7 @@ class Caltech(VisionDataset):
         if self.transform is not None:
             image = self.transform(image)
 
-        return image, label
+      return image, label
 
     def __len__(self):
         '''
@@ -85,4 +85,4 @@ class Caltech(VisionDataset):
         It is mandatory, as this is used by several other components
         '''
         length = len(self.final_label) # Provide a way to get the length (number of elements) of the dataset
-        return length
+    return length
