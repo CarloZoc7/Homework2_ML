@@ -21,43 +21,32 @@ class Caltech(VisionDataset):
 
         self.split = split # This defines the split you are going to use
                            # (split files are called 'train.txt' and 'test.txt')
+        self.dir_labels = {}
+        self.elements = []
 
-        '''
-        - Here you should implement the logic for reading the splits files and accessing elements
-        - If the RAM size allows it, it is faster to store all data in memory
-        - PyTorch Dataset classes use indexes to read elements
-        - You should provide a way for the __getitem__ method to access the image-label pair
-          through the index
-        - Labels should start from 0, so for Caltech you will have lables 0...100 (excluding the background class) 
-        '''
+        self.images_dataset = []
+        
         f = open(self.split , "r")
         
-        samples_file = [str(row).replace("\n", "") for row in f]
-        self.labels = [label.split("/")[0] for label in samples_file] # if label.split("/")[0] != 'BACKGROUND_Google' to remove label of background
-        self.dir_labels = {}
+        samples_file = [str(row).replace("\n", "") for row in f if row.split("/")[0] != 'BACKGROUND_Google']
+        self.labels = [label.split("/")[0] for label in samples_file if label.split("/")[0] != 'BACKGROUND_Google'] #to remove label of background
+       
 
         for key, label in enumerate(self.labels):
           if label not in self.dir_labels.keys():
             self.dir_labels[label] = key
-            
-        self.elements = []
 
         for sample in samples_file:
           self.elements.append(pil_loader(root+"/"+sample))
        
-        self.final_labels = []
-        self.images_tensor = []
-
         for i in range(len(self.elements)):
           image, label = self.__getitem__(i)  
-
-          self.images_tensor.append(image)
-          self.final_labels.append(label)
+          self.images_dataset.append((image, label))
+        
 
         self.elements.clear()
         self.labels.clear()
         self.dir_labels.clear()
-        return None
 
     def __getitem__(self, index):
         '''
@@ -79,7 +68,6 @@ class Caltech(VisionDataset):
         # Applies preprocessing when accessing the image
         if self.transform is not None:
             image = self.transform(image)
-
         return image, label
 
     def __len__(self):
@@ -89,6 +77,6 @@ class Caltech(VisionDataset):
         '''
         length = len(self.final_label) # Provide a way to get the length (number of elements) of the dataset
         return length
-
-    def get_dataset_labels(self):
-      return self.images_tensor, self.final_labels
+    
+    def get_dataset(self):
+      return self.images_dataset
