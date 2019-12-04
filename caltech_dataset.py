@@ -1,4 +1,4 @@
-!pip install --upgrade pillow
+!pip3 install --upgrade pillow
 
 from torchvision.datasets import VisionDataset
 
