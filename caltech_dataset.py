@@ -30,7 +30,7 @@ class Caltech(VisionDataset):
           through the index
         - Labels should start from 0, so for Caltech you will have lables 0...100 (excluding the background class) 
         '''
-        f = open(root+"/"+self.split , "r")
+        f = open(self.split , "r")
         
         samples_file = [str(row).replace("\n", "") for row in f]
         self.labels = [label.split("/")[0] for label in samples_file]
