@@ -70,7 +70,7 @@ class Caltech(VisionDataset):
                            # label can be int
         
         image = self.elements[index]
-        lables_name = self.lables[index]
+        lables_name = self.labels[index]
         label = self.dir_labels[lables_name]
 
         # Applies preprocessing when accessing the image
