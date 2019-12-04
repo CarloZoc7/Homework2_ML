@@ -48,7 +48,7 @@ class Caltech(VisionDataset):
         final_labels = []
         images_tensor = []
 
-        for i in range(len(elements))
+        for i in range(len(elements)):
           image, label = self.__getitem__(i)  
 
           images_tensor.append(image)
