@@ -1,3 +1,5 @@
+!pip install --upgrade pillow
+
 from torchvision.datasets import VisionDataset
 
 from PIL import Image
