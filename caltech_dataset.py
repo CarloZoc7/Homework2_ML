@@ -31,10 +31,11 @@ class Caltech(VisionDataset):
         samples_file = [str(row).replace("\n", "") for row in f if row.split("/")[0] != 'BACKGROUND_Google']
         self.labels = [label.split("/")[0] for label in samples_file if label.split("/")[0] != 'BACKGROUND_Google'] #to remove label of background
        
-
-        for key, label in enumerate(self.labels):
+        key = 0
+        for label in self.labels:
           if label not in self.dir_labels.keys():
             self.dir_labels[label] = key
+            key = key + 1
 
         for sample in samples_file:
           self.elements.append(pil_loader(root+"/"+sample))
